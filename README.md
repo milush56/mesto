@@ -11,4 +11,4 @@
 
 ___
 
-[Ссылка на проект](https://milush56.github.io/yet-another-project/index.html)
+[Ссылка на проект](https://milush56.github.io/mesto/)
