@@ -6,6 +6,12 @@
   top: -40px;
   cursor: pointer;
   color: #FFFFFF;
+  background-color: transparent;
+  background-image: url(../../../images/Close.svg);
+  background-position: center;
+  background-size: cover;
+  border: none;
+  padding: 0;
 }
 
 .popup__close:hover {

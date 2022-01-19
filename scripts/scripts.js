@@ -8,25 +8,22 @@ let nameForm = document.getElementById('name');
 let postForm = document.getElementById('post');
 let popupContainer = document.querySelector('.popup__container');
 
-popupEditButton.addEventListener('click', function() {
-  popup.classList.add('popup_opened')
-});
+function openPopup() {
+  popup.classList.add('popup_opened');
+  nameForm.value = nameProfile.textContent;
+  postForm.value = postProfile.textContent;
+}
 
-function popupClose() {
+function closePopup() {
   popup.classList.remove('popup_opened');
 }
 
-popupCloseButton.addEventListener('click', popupClose);
-
-nameForm.value = nameProfile.textContent;
-postForm.value = postProfile.textContent;
-
 function formPopup (evt) {
   evt.preventDefault();
-
   nameProfile.textContent = nameForm.value;
   postProfile.textContent = postForm.value;
-  popupClose();
+  closePopup();
 }
-
+popupEditButton.addEventListener('click', openPopup);
+popupCloseButton.addEventListener('click', closePopup);
 popupContainer.addEventListener('submit', formPopup); 
