@@ -6,7 +6,7 @@ let nameProfile = document.querySelector('.profile__title');
 let postProfile = document.querySelector('.profile__subtitle');
 let nameForm = document.getElementById('name');
 let postForm = document.getElementById('post');
-let popupContainer = document.querySelector('.popup__container');
+let formResume = document.getElementById('resume');
 
 function openPopup() {
   popup.classList.add('popup_opened');
@@ -26,4 +26,4 @@ function formPopup (evt) {
 }
 popupEditButton.addEventListener('click', openPopup);
 popupCloseButton.addEventListener('click', closePopup);
-popupContainer.addEventListener('submit', formPopup); 
+formResume.addEventListener('submit', formPopup); 
