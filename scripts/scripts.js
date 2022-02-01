@@ -1,12 +1,11 @@
 const popupEditButton = document.querySelector('.profile__edit-button');
 const popup = document.querySelector('.popup');
 const popupCloseButton = document.querySelector('.popup__close');
-/*let savePopupButton = document.querySelector('.popup__button');*/
-let nameProfile = document.querySelector('.profile__title');
-let postProfile = document.querySelector('.profile__subtitle');
-let nameForm = document.getElementById('name');
-let postForm = document.getElementById('post');
-let formResume = document.getElementById('resume');
+const nameProfile = document.querySelector('.profile__title');
+const postProfile = document.querySelector('.profile__subtitle');
+const nameForm = document.getElementById('name');
+const postForm = document.getElementById('post');
+const formResume = document.getElementById('resume');
 
 function openPopup() {
   popup.classList.add('popup_opened');
@@ -28,11 +27,7 @@ popupEditButton.addEventListener('click', openPopup);
 popupCloseButton.addEventListener('click', closePopup);
 formResume.addEventListener('submit', formPopup); 
 
-//4 спринт
-
-const firstCardTemplate = document.querySelector('#first-card').content;
-const firstCardElement = firstCardTemplate.querySelector('.element').cloneNode(true);
-const elementContainer = document.querySelector('.elements__container');
+//5 спринт
 const initialCards = [
   {
     name: 'Архыз',
@@ -60,55 +55,36 @@ const initialCards = [
   }
 ];
 
-firstCardElement.querySelector('.element__image').src = 'images/arkhyz.jpg';
-firstCardElement.querySelector('.element__place-name').textContent = 'Архыз';
+const newCardTemplate = document.querySelector('#new-card').content;
+const elementContainer = document.querySelector('.elements__container');
 
-elementContainer.append(firstCardElement);
+function addCard(element) {
+  const addCardElement = newCardTemplate.cloneNode(true);
 
-const secondCardTemplate = document.querySelector('#second-card').content;
-const secondCardElement = secondCardTemplate.querySelector('.element').cloneNode(true);
+  addCardElement.querySelector('.element__place-name').textContent = element.name;
+  addCardElement.querySelector('.element__image').src = element.link;
+  addCardElement.querySelector('.element__image').alt = element.name;
 
-secondCardElement.querySelector('.element__image').src = 'images/chelyabinsk-oblast.jpg';
-secondCardElement.querySelector('.element__place-name').textContent = 'Челябинская область';
+  addCardElement.querySelector('.element__image').addEventListener('click', function() {
+    openImage();
+    document.querySelector('.image-popup__image').src = element.link;
+    document.querySelector('.image-popup__title').textContent = element.name;
+  })
 
-elementContainer.append(secondCardElement);
+  elementContainer.appendChild(addCardElement);
+};
 
-const thirdCardTemplate = document.querySelector('#third-card').content;
-const thirdCardElement = thirdCardTemplate.querySelector('.element').cloneNode(true);
+function render () {
+  initialCards.forEach(addCard);
+};
 
-thirdCardElement.querySelector('.element__image').src = 'images/ivanovo.jpg';
-thirdCardElement.querySelector('.element__place-name').textContent = 'Иваново';
+render();
 
-elementContainer.append(thirdCardElement);
-
-const fourthCardTemplate = document.querySelector('#fourth-card').content;
-const fourthCardElement = fourthCardTemplate.querySelector('.element').cloneNode(true);
-
-fourthCardElement.querySelector('.element__image').src = 'images/kamchatka.jpg';
-fourthCardElement.querySelector('.element__place-name').textContent = 'Камчатка';
-
-elementContainer.append(fourthCardElement);
-
-const fifthCardTemplate = document.querySelector('#fifth-card').content;
-const fifthCardElement = fifthCardTemplate.querySelector('.element').cloneNode(true);
-
-fifthCardElement.querySelector('.element__image').src = 'images/kholmogorsky-rayon.jpg';
-fifthCardElement.querySelector('.element__place-name').textContent = 'Холмогорский район';
-
-elementContainer.append(fifthCardElement);
-
-const sixthCardTemplate = document.querySelector('#sixth-card').content;
-const sixthCardElement = sixthCardTemplate.querySelector('.element').cloneNode(true);
-
-sixthCardElement.querySelector('.element__image').src = 'images/baikal.jpg';
-sixthCardElement.querySelector('.element__place-name').textContent = 'Байкал';
-
-elementContainer.append(sixthCardElement);
-
+ 
 //попап
 const popupAddButton = document.querySelector('.profile__add-button');
 const popupMesto = document.getElementById('popup-mesto');
-let closeMesto = document.getElementById('close-mesto');
+const closeMesto = document.getElementById('close-mesto');
 
 function openPopupMesto() {
   popupMesto.classList.add('popup_opened');
@@ -129,9 +105,8 @@ const linkImageForm = document.getElementById('link-image');
 
 function addNewCard (evt) {
   evt.preventDefault();
-
-  const newCardTemplate = document.querySelector('#new-card').content;
-  const newCardElement = firstCardTemplate.querySelector('.element').cloneNode(true);
+  
+  const newCardElement = newCardTemplate.querySelector('.element').cloneNode(true);
 
   newCardElement.querySelector('.element__image').src = linkImageForm.value;
   newCardElement.querySelector('.element__image').alt = nameImageForm.value;
@@ -141,6 +116,11 @@ function addNewCard (evt) {
     })
   newCardElement.querySelector('.element__delete').addEventListener('click', function(evt) {
     event.target.closest('.element').remove();
+    })
+    newCardElement.querySelector('.element__image').addEventListener('click', function() {
+      openImage();
+      document.querySelector('.image-popup__image').src = newCardElement.querySelector('.element__image').src;
+      document.querySelector('.image-popup__title').textContent = newCardElement.querySelector('.element__place-name').textContent;
     })
 
   elementContainer.prepend(newCardElement);
@@ -173,11 +153,6 @@ deleteButton.forEach((elem) => {
 })
 
 // фото
-const imageElement = document.querySelectorAll('.element__image');
-const popupImage = document.querySelector('.image-popup');
-const popupCloseImageButton = document.querySelector('.image-popup__close');
-const nameElements = document.querySelectorAll('.element__place-name');
-
 function openImage() {
   popupImage.classList.add('image-popup_opened');
 }
@@ -186,54 +161,9 @@ function closeImagePopup() {
   popupImage.classList.remove('image-popup_opened');
 }
 
-/* imageElement.forEach(image => {
-  image.onclick = () =>{
-    openImage();
-    document.querySelector('.image-popup__image').src = image.getAttribute('src');
-    nameElements.forEach(name => {
-      document.querySelector('.image-popup__title').textContent = name.textContent;
-    })
-    //document.querySelector('.image-popup__title').textContent 
-    
-  };
 
-}); */
+const popupImage = document.querySelector('.image-popup');
+const popupCloseImageButton = document.querySelector('.image-popup__close');
+const nameElements = document.querySelectorAll('.element__place-name');
  
 popupCloseImageButton.addEventListener('click', closeImagePopup);
-
-function createCard(name, link){
-  document.querySelector('.element__place-name').textContent = name;
-  document.querySelector('.element__image').src = link;
-
-  document.querySelector('.element__image').addEventListener('click', function() {
-    openImage();
-    document.querySelector('.image-popup__image').src = link;
-    document.querySelector('.image-popup__title').textContent = name;
-  });
-}
-
-initialCards.forEach(function(item) { 
-  //Создание карточки
-   let card = createCard(item.name, item.link); 
-    
- // Добавление карточки в разметку
-   addNewCard(card); 
- }); 
-
-
-/* // Функция создания карточки
-function createCard(name, link){
-  Ты здесь находишь все необходимые поля у заготовки
-  и им присваиваешь переданные name/link
-
-  Тут же у заготовки находишь тег img, на который вешаешь слушатель клика, в колбеке у тебя функция.
-Функция открывает попап и берет у карточки название и ссылку и подставляет в попап.
-}
-
-initialCards.forEach(function(item) { 
- //Создание карточки
-  let card = createCard(item.name, item.link); 
-   
-// Добавление карточки в разметку
-  addNewCard(card); 
-}); */
