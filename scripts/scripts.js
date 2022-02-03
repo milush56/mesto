@@ -43,17 +43,19 @@ function editFormPopup(evt) {
   closePopup();
 }
 
-function addCard(element) {
+function addCard(name, link) {
   const addCardElement = newCardTemplate.cloneNode(true);
-
-  addCardElement.querySelector('.element__place-name').textContent = element.name;
-  addCardElement.querySelector('.element__image').src = element.link;
-  addCardElement.querySelector('.element__image').alt = element.name;
+  const linkImagePopup = document.querySelector('.image-popup__image');
+  const textImagePopup = document.querySelector('.image-popup__title');
+  
+  addCardElement.querySelector('.element__place-name').textContent = name;
+  addCardElement.querySelector('.element__image').src = link;
+  addCardElement.querySelector('.element__image').alt = name;
 
   addCardElement.querySelector('.element__image').addEventListener('click', function() {
     openImage();
-    document.querySelector('.image-popup__image').src = element.link;
-    document.querySelector('.image-popup__title').textContent = element.name;
+    linkImagePopup.src = link;
+    textImagePopup.textContent = name;
   })
 
   addCardElement.querySelector('.element__like').addEventListener('click', function(evt) {
@@ -64,15 +66,16 @@ function addCard(element) {
     event.target.closest('.element').remove();
   })
 
-  elementContainer.append(addCardElement);
+  elementContainer.prepend(addCardElement);
 };
 
 function render() {
-  initialCards.forEach(addCard);
-};
+  initialCards.forEach(elem => {
+    addCard(elem.name, elem.link);
+  });
+}
 
 render();
-
 
 function openPopupMesto() {
   openGeneralPopup(popupMesto);
@@ -84,31 +87,7 @@ function closePopupMesto() {
 
 function addNewCard(evt) {
   evt.preventDefault();
-  
-  const newCardElement = newCardTemplate.querySelector('.element').cloneNode(true);
-
-  newCardElement.querySelector('.element__image').src = linkImageForm.value;
-  newCardElement.querySelector('.element__image').alt = nameImageForm.value;
-  newCardElement.querySelector('.element__place-name').textContent = nameImageForm.value;
-  newCardElement.querySelector('.element__like').addEventListener('click', function(evt) {
-    evt.target.classList.toggle('element__like_active');
-    })
-  newCardElement.querySelector('.element__delete').addEventListener('click', function(evt) {
-    event.target.closest('.element').remove();
-    })
-  newCardElement.querySelector('.element__image').addEventListener('click', function() {
-    openImage();
-    document.querySelector('.image-popup__image').src = newCardElement.querySelector('.element__image').src;
-    document.querySelector('.image-popup__title').textContent = newCardElement.querySelector('.element__place-name').textContent;
-  })
-  newCardElement.querySelector('.element__like').addEventListener('click', function() {
-    evt.target.classList.toggle('element__like_active');
-  })
-  newCardElement.querySelector('.element__delete').addEventListener('click', function(event) {
-    event.target.closest('.element').remove();
-  })
-
-  elementContainer.prepend(newCardElement);
+  addCard(nameImageForm.value, linkImageForm.value);
   closePopupMesto();
 };
 
