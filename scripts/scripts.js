@@ -106,3 +106,41 @@ popupAddButton.addEventListener('click', openPopupMesto);
 buttonCloseMesto.addEventListener('click', closePopupMesto);
 formMesto.addEventListener('submit', addNewCard);
 popupCloseImageButton.addEventListener('click', closeImagePopup);
+
+//пр6
+// чувствую что можно както сделать проще но пока не пойму как ↓↓↓↓
+popup.addEventListener('click', function (evt) {
+  if(evt.target === evt.currentTarget)  {
+    closePopup();
+  }
+})
+
+popupMesto.addEventListener('click', function (evt) {
+  if(evt.target === evt.currentTarget)  {
+    closePopupMesto();
+  }
+})
+
+popupImage.addEventListener('click', function (evt) {
+  if(evt.target === evt.currentTarget)  {
+    closeImagePopup();
+  }
+})
+
+document.addEventListener('keydown', function(evt) {
+  if(evt.key === 'Escape') {
+    closePopup();
+  }
+})
+
+document.addEventListener('keydown', function(evt) {
+  if(evt.key === 'Escape') {
+    closePopupMesto();
+  }
+})
+
+document.addEventListener('keydown', function(evt) {
+  if(evt.key === 'Escape') {
+    closeImagePopup();
+  }
+})
