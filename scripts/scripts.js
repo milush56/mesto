@@ -1,59 +1,60 @@
 const popupEditButton = document.querySelector('.profile__edit-button');
-const popup = document.querySelector('.popup');
-const popupCloseButton = document.querySelector('.popup__close');
+const popupProfile = document.querySelector('.popup-profile');
+const popupProfileCloseButton = document.querySelector('.popup-profile__close');
 const nameProfile = document.querySelector('.profile__title');
 const postProfile = document.querySelector('.profile__subtitle');
-const nameForm = document.getElementById('name');
-const postForm = document.getElementById('post');
-const formResume = document.getElementById('resume');
+const nameForm = document.querySelector('.popup__item_name');
+const postForm = document.querySelector('.popup__item_post');
+const formResume = document.forms.resume;
 const newCardTemplate = document.querySelector('#new-card').content;
 const elementContainer = document.querySelector('.elements__container');
 const popupAddButton = document.querySelector('.profile__add-button');
-const popupMesto = document.getElementById('popup-mesto');
-const buttonCloseMesto = document.getElementById('close-mesto');
-const formMesto = document.getElementById('mesto');
-const nameImageForm = document.getElementById('name-image');
-const linkImageForm = document.getElementById('link-image');
+const popupMesto = document.querySelector('.popup-mesto');
+const buttonCloseMesto = document.querySelector('.popup-mesto__close');
+const formMesto = document.forms.mesto;
+const nameImageForm = document.querySelector('.popup__item_name-image');
+const linkImageForm = document.querySelector('.popup__item_link');
 const popupImage = document.querySelector('.image-popup');
 const popupCloseImageButton = document.querySelector('.image-popup__close');
 const nameElements = document.querySelectorAll('.element__place-name');
+const ESC_CODE = 'Escape';
+const creatButtonFormMesto = formMesto.elements.creat;
 
 function openGeneralPopup(item) {
   item.classList.add('popup_opened');
+  
 }
 
 function closeGeneralPopup(item) {
   item.classList.remove('popup_opened');
+  document.addEventListener('keydown', closeByEsc);
 } 
 
-function openPopup() {
-  openGeneralPopup(popup);
+function openPopupProfile() {
+  openGeneralPopup(popupProfile);
   nameForm.value = nameProfile.textContent;
   postForm.value = postProfile.textContent;
 }
-
-function closePopup() {
-  closeGeneralPopup(popup);
-} 
 
 function editFormPopup(evt) {
   evt.preventDefault();
   nameProfile.textContent = nameForm.value;
   postProfile.textContent = postForm.value;
-  closePopup();
+  closeGeneralPopup(popupProfile);
 }
 
-function addCard(name, link) {
+function createCard(name, link) {
   const addCardElement = newCardTemplate.cloneNode(true);
   const linkImagePopup = document.querySelector('.image-popup__image');
   const textImagePopup = document.querySelector('.image-popup__title');
+  const imageCardElement = addCardElement.querySelector('.element__image');
   
   addCardElement.querySelector('.element__place-name').textContent = name;
-  addCardElement.querySelector('.element__image').src = link;
-  addCardElement.querySelector('.element__image').alt = name;
+  imageCardElement.src = link;
+  imageCardElement.alt = name;
 
-  addCardElement.querySelector('.element__image').addEventListener('click', function() {
-    openImage();
+  addCardElement.querySelector('.element__image').addEventListener('click', () => {
+    openGeneralPopup(popupImage);
     linkImagePopup.src = link;
     textImagePopup.textContent = name;
   })
@@ -66,81 +67,51 @@ function addCard(name, link) {
     event.target.closest('.element').remove();
   })
 
-  elementContainer.prepend(addCardElement);
+  return addCardElement;
 };
+
+function addCard(card) {
+  elementContainer.prepend(card);
+}
 
 function render() {
   initialCards.forEach(elem => {
-    addCard(elem.name, elem.link);
+    let card = createCard(elem.name, elem.link);    
+    addCard(card);
   });
 }
 
 render();
 
-function openPopupMesto() {
-  openGeneralPopup(popupMesto);
-}
-
-function closePopupMesto() {
-  closeGeneralPopup(popupMesto);
-}
-
 function addNewCard(evt) {
   evt.preventDefault();
-  addCard(nameImageForm.value, linkImageForm.value);
-  closePopupMesto();
+  createCard(nameImageForm.value, linkImageForm.value);
+  closeGeneralPopup(popupMesto);
+  formMesto.reset();
+  creatButtonFormMesto.classList.add('popup__button_inactive');
 };
 
-function openImage() {
-  popupImage.classList.add('image-popup_opened');
+function closeByOverlayClick(evt) {
+  if (evt.target.classList.contains('popup')) {
+      const openedPopup = document.querySelector('.popup_opened');
+      closeGeneralPopup(openedPopup);
+  }
 }
 
-function closeImagePopup() {
-  popupImage.classList.remove('image-popup_opened');
-}
+function closeByEsc(evt) {
+  if (evt.key === ESC_CODE) {
+    const openedPopup = document.querySelector('.popup_opened');
+    closeGeneralPopup(openedPopup); 
+  }
+} 
 
-popupEditButton.addEventListener('click', openPopup);
-popupCloseButton.addEventListener('click', closePopup);
+popupEditButton.addEventListener('click', openPopupProfile);
+popupProfileCloseButton.addEventListener('click', () => closeGeneralPopup(popupProfile));
 formResume.addEventListener('submit', editFormPopup);
-popupAddButton.addEventListener('click', openPopupMesto);
-buttonCloseMesto.addEventListener('click', closePopupMesto);
+popupAddButton.addEventListener('click', () => openGeneralPopup(popupMesto));
+buttonCloseMesto.addEventListener('click', () => closeGeneralPopup(popupMesto));
 formMesto.addEventListener('submit', addNewCard);
-popupCloseImageButton.addEventListener('click', closeImagePopup);
-
-//пр6
-// чувствую что можно както сделать проще но пока не пойму как ↓↓↓↓
-popup.addEventListener('click', function (evt) {
-  if(evt.target === evt.currentTarget)  {
-    closePopup();
-  }
-})
-
-popupMesto.addEventListener('click', function (evt) {
-  if(evt.target === evt.currentTarget)  {
-    closePopupMesto();
-  }
-})
-
-popupImage.addEventListener('click', function (evt) {
-  if(evt.target === evt.currentTarget)  {
-    closeImagePopup();
-  }
-})
-
-document.addEventListener('keydown', function(evt) {
-  if(evt.key === 'Escape') {
-    closePopup();
-  }
-})
-
-document.addEventListener('keydown', function(evt) {
-  if(evt.key === 'Escape') {
-    closePopupMesto();
-  }
-})
-
-document.addEventListener('keydown', function(evt) {
-  if(evt.key === 'Escape') {
-    closeImagePopup();
-  }
-})
+popupCloseImageButton.addEventListener('click', () => closeGeneralPopup(popupImage));
+popupProfile.addEventListener('mousedown', closeByOverlayClick);
+popupMesto.addEventListener('mousedown', closeByOverlayClick);
+popupImage.addEventListener('mousedown', closeByOverlayClick);

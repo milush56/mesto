@@ -39,37 +39,37 @@
     <footer class="footer">
       <p class="footer__copyright">© 2020 Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup-profile">
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
         <form name="resume" id="resume" class="popup__form" novalidate>
-          <button type="button" aria-label="закрыть" class="popup__close"></button>
+          <button type="button" aria-label="закрыть" class="popup__close popup-profile__close"></button>
           <fieldset class="popup__input-container">
-            <input type="text" class="popup__item" id="name" name="name" placeholder="Ваше имя" minlength="2" maxlength="40" required>
+            <input type="text" class="popup__item popup__item_name" id="name" name="name" placeholder="Ваше имя" minlength="2" maxlength="40" required>
             <span class="name-error popup__input-error">Вы пропустили это поле.</span>
-            <input type="text" class="popup__item" id="post" name="post" placeholder="Должность" minlength="2" maxlength="200" required>
+            <input type="text" class="popup__item popup__item_post" id="post" name="post" placeholder="Должность" minlength="2" maxlength="200" required>
             <span class="post-error popup__input-error"></span>
             <button type="submit" class="popup__button" value="Сохранить" aria-label="сохранить">Сохранить</button>
           </fieldset>
         </form>
       </div>
     </div>
-    <div class="popup" id="popup-mesto">
+    <div class="popup popup-mesto">
       <div class="popup__container">
         <h2 class="popup__title">Новое место</h2>
         <form name="mesto" id="mesto" class="popup__form" novalidate>
-          <button type="button" aria-label="закрыть" class="popup__close" id="close-mesto"></button>
+          <button type="button" aria-label="закрыть" class="popup__close popup-mesto__close" id="close-mesto"></button>
           <fieldset class="popup__input-container">
-            <input type="text" class="popup__item" id="name-image" name="name" placeholder="Название" minlength="2" maxlength="30" required>
+            <input type="text" class="popup__item popup__item_name-image" id="name-image" name="name" placeholder="Название" minlength="2" maxlength="30" required>
             <span class="name-image-error popup__input-error">Вы пропустили это поле.</span>
-            <input type="url" class="popup__item" id="link-image" name="post" placeholder="Ссылка на картинку" required>
+            <input type="url" class="popup__item popup__item_link" id="link-image" name="link" placeholder="Ссылка на картинку" required>
             <span class="link-image-error popup__input-error">Вы пропустили это поле.</span>
-            <button type="submit" class="popup__button" value="Создать" aria-label="Создать">Создать</button>
+            <button type="submit" class="popup__button" name="creat" value="Создать" aria-label="Создать">Создать</button>
           </fieldset>
         </form>
       </div>
     </div>
-    <div class="image-popup">
+    <div class="popup image-popup">
       <div class="image-popup__container">
         <button type="button" aria-label="закрыть" class="image-popup__close"></button>
         <img class="image-popup__image" alt="пейзаж" src="/">
