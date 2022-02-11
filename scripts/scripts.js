@@ -22,12 +22,12 @@ const creatButtonFormMesto = formMesto.elements.creat;
 
 function openGeneralPopup(item) {
   item.classList.add('popup_opened');
-  
+  document.addEventListener('keydown', closeByEsc);
 }
 
 function closeGeneralPopup(item) {
   item.classList.remove('popup_opened');
-  document.addEventListener('keydown', closeByEsc);
+  document.removeEventListener('keydown', closeByEsc);
 } 
 
 function openPopupProfile() {
@@ -57,18 +57,18 @@ function createCard(name, link) {
     openGeneralPopup(popupImage);
     linkImagePopup.src = link;
     textImagePopup.textContent = name;
-  })
+  });
 
   addCardElement.querySelector('.element__like').addEventListener('click', function(evt) {
     evt.target.classList.toggle('element__like_active');
-  })
+  });
 
   addCardElement.querySelector('.element__delete').addEventListener('click', function(event) {
     event.target.closest('.element').remove();
-  })
+  });
 
   return addCardElement;
-};
+}
 
 function addCard(card) {
   elementContainer.prepend(card);
@@ -76,7 +76,7 @@ function addCard(card) {
 
 function render() {
   initialCards.forEach(elem => {
-    let card = createCard(elem.name, elem.link);    
+    const card = createCard(elem.name, elem.link);    
     addCard(card);
   });
 }
@@ -89,7 +89,8 @@ function addNewCard(evt) {
   closeGeneralPopup(popupMesto);
   formMesto.reset();
   creatButtonFormMesto.classList.add('popup__button_inactive');
-};
+  creatButtonFormMesto.setAttribute('disabled', true);
+}
 
 function closeByOverlayClick(evt) {
   if (evt.target.classList.contains('popup')) {
