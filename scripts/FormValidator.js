@@ -61,7 +61,7 @@ function toggleButtonState(config, inputList, buttonElement) {
   }
 }*/
 
-const config = {
+export const config = {
   inputElement: '.popup__item',
   buttonElement: '.popup__button',
   inactiveButtonClass: 'popup__button_inactive',
@@ -69,7 +69,7 @@ const config = {
   errorClass: 'popup_input-error_active'
 };
 
-class FormValidator {
+export class FormValidator {
   constructor(config, formElement) {
     this._formElement = document.querySelector(formElement);
     this._inputElement = config.inputElement;
@@ -104,11 +104,9 @@ class FormValidator {
   _setEventListeners() {
     const inputList = Array.from(this._formElement.querySelectorAll(this._inputElement));
     const buttonElement = this._formElement.querySelector(this._buttonElement);
-    console.log(inputList);
-    console.log(buttonElement);
-    //this._toggleButtonState(inputList, buttonElement); 
+    this._toggleButtonState(inputList, buttonElement); 
     inputList.forEach((inputElement) => {
-      inputElement.addEventListener('input', function () {
+      inputElement.addEventListener('input',  () => {
         this._checkInputValidity(inputElement);
         this._toggleButtonState(inputList, buttonElement); 
       });
@@ -143,8 +141,3 @@ class FormValidator {
   }
 }
 
-const resumeFormValidate = new FormValidator(config, '#resume');
-resumeFormValidate.enableValidation();
-
-const mestoFormValidate = new FormValidator(config, '#mesto');
-mestoFormValidate.enableValidation();
