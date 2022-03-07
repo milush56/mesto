@@ -101,9 +101,11 @@ class FormValidator {
     }
   }
 
-  _setEventListeners(fieldSet) {
-    const inputList = Array.from(fieldSet.querySelectorAll(this._inputElement));
-    const buttonElement = fieldSet.querySelector(this._buttonElement);
+  _setEventListeners() {
+    const inputList = Array.from(this._formElement.querySelectorAll(this._inputElement));
+    const buttonElement = this._formElement.querySelector(this._buttonElement);
+    console.log(inputList);
+    console.log(buttonElement);
     //this._toggleButtonState(inputList, buttonElement); 
     inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', function () {
@@ -117,12 +119,11 @@ class FormValidator {
     this._formElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
     });
-    const fieldsetList = Array.from(this._formElement.querySelectorAll('.popup__input-container'));
-    //console.log(fieldsetList);
+    this._setEventListeners();
+    /* const fieldsetList = Array.from(this._formElement.querySelectorAll('.popup__input-container'));
     fieldsetList.forEach((fieldSet) => {
       this._setEventListeners(fieldSet);
-    });
-
+    }); */
   }
 
   _hasInvalidInput(inputList) {
