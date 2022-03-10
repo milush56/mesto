@@ -6,23 +6,25 @@ import {
 } from './utils.js';
 
 export class Card {
-  constructor(name, link) {
+  constructor(name, link, templateSelector) {
     this._name = name;
     this._link = link;
-    this._cardElement = document
-      .querySelector('#new-card')
+    this._templateSelector = templateSelector;
+  }
+
+  _getTemplate() {
+    return document.querySelector(this._templateSelector)
       .content
       .querySelector('.element')
       .cloneNode(true);
   }
 
   generateCard() {
-    this._element = this._cardElement;
+    this._element = this._getTemplate();
 
     this._element.querySelector('.element__image').src = this._link;
     this._element.querySelector('.element__place-name').textContent = this._name;
     this._element.querySelector('.element__image').alt = this._name;
-    //this._element.querySelector('.element__like') = this._like;
     this._like = this._element.querySelector('.element__like');
     this._remove = this._element.querySelector('.element__delete');
     this._image = this._element.querySelector('.element__image');
@@ -33,6 +35,7 @@ export class Card {
 
   _handleOpenImagePopup() {
     linkImagePopup.src = this._link;
+    document.querySelector('.image-popup__title').textContent = this._name;
     openGeneralPopup(popupImage);
   }
 

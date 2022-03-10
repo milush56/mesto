@@ -52,7 +52,7 @@ function addNewCard(evt) {
 
   const name = nameImageForm.value;
   const link = linkImageForm.value;
-  creatNewCard(name, link);
+  creatNewCard(name, link, '#new-card');
   closeGeneralPopup(popupMesto);
   formMesto.reset();
   creatButtonFormMesto.classList.add('popup__button_inactive');
@@ -66,8 +66,8 @@ function closeByOverlayClick(evt) {
   }
 }
 
-function creatNewCard(name, link) {
-  const card = new Card(name, link);
+function creatNewCard(name, link, templateSelector) {
+  const card = new Card(name, link, templateSelector);
   const cardElement = card.generateCard();
 
   elementContainer.prepend(cardElement);
@@ -86,7 +86,7 @@ popupImage.addEventListener('mousedown', closeByOverlayClick);
 
 
 initialCards.forEach((item) => {
-  creatNewCard(item.name, item.link);
+  creatNewCard(item.name, item.link, '#new-card');
 });
 
 const resumeFormValidate = new FormValidator(config, '#resume');
