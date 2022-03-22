@@ -1,15 +1,9 @@
-import {
-  linkImagePopup,
-  popupImage,
-  popupCloseImageButton,
-  openGeneralPopup
-} from './utils.js';
-
 export class Card {
-  constructor(name, link, templateSelector) {
+  constructor(name, link, templateSelector, handleCardClick) {
     this._name = name;
     this._link = link;
     this._templateSelector = templateSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -33,12 +27,6 @@ export class Card {
     return this._element;
   }
 
-  _handleOpenImagePopup() {
-    linkImagePopup.src = this._link;
-    document.querySelector('.image-popup__title').textContent = this._name;
-    openGeneralPopup(popupImage);
-  }
-
   _likeCard() {
     this._like.classList.toggle('element__like_active');
   }
@@ -48,17 +36,17 @@ export class Card {
     this._element = null;
   }
 
-  _setEventListeners() {
-    this._image.addEventListener('click', () => {
-      this._handleOpenImagePopup();
-    });
-
+  _setEventListeners() {   
     this._like.addEventListener('click', () => {
       this._likeCard();
     });
 
     this._remove.addEventListener('click', () => {
       this._removeCard();
+    });
+
+    this._image.addEventListener('click', () => {
+      this._handleCardClick(this._name, this._link);
     });
   }
 }
