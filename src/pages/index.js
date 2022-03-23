@@ -1,10 +1,11 @@
+import './index.css';
 import {
   Card
-} from './Card.js';
+} from '../components/Card.js';
 import {
   FormValidator,
   config
-} from './FormValidator.js';
+} from '../components/FormValidator.js';
 import {
   popupEditButton,
   nameProfile,
@@ -12,14 +13,14 @@ import {
   nameForm,
   postForm,
   popupAddButton
-} from './utils.js';
+} from '../components/utils.js';
 import {
   initialCards
-} from './initialCards.js';
-import Section from './Section.js';
-import UserInfo from './UserInfo.js';
-import PopupWithImage from './PopupWithImage.js';
-import PopupWithForm from './PopupWithForm.js';
+} from '../components/initialCards.js';
+import Section from '../components/Section.js';
+import UserInfo from '../components/UserInfo.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
 
 
 const userInfo = new UserInfo(nameProfile, postProfile);
