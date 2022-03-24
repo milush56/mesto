@@ -3,9 +3,9 @@ import {
   Card
 } from '../components/Card.js';
 import {
-  FormValidator,
-  config
+  FormValidator
 } from '../components/FormValidator.js';
+import { config } from '../components/config.js';
 import {
   popupEditButton,
   nameProfile,
@@ -26,7 +26,6 @@ import PopupWithForm from '../components/PopupWithForm.js';
 const userInfo = new UserInfo(nameProfile, postProfile);
 const popupProfile = new PopupWithForm('.popup-profile', {
   submitEvent: (item) => {
-    console.log(item);
     userInfo.setUserInfo(item);
     popupProfile.close();
   }
@@ -37,22 +36,26 @@ popupEditButton.addEventListener('click', () => {
   nameForm.value = userPost.name;
   postForm.value = userPost.info;
   popupProfile.open();
-  console.log(userPost);
+  resumeFormValidate.toggleButtonState();
 });
 
 popupProfile.setEventListeners();
 
+const creatCard = (name, link, templateSelector) => {
+  const card = new Card(name, link, templateSelector, handleCardClick); 
+  const cardElement = card.generateCard();
+  creatNewCard.addItem(cardElement);
+};
+
 const popupMesto = new PopupWithForm('.popup-mesto', {
   submitEvent: (item) => {
-    console.log(item);
-    const card = new Card(item.name, item.link, '#new-card', handleCardClick);
-    const cardElement = card.generateCard();
-    creatNewCard.addItem(cardElement);
+    creatCard(item.name, item.link, '#new-card', handleCardClick);
     popupMesto.close();
   }
 });
 popupAddButton.addEventListener('click', () => {
   popupMesto.open();
+  mestoFormValidate.toggleButtonState();
 });
 
 popupMesto.setEventListeners();
@@ -60,18 +63,16 @@ popupMesto.setEventListeners();
 const popupWithImage = new PopupWithImage('.image-popup');
 const handleCardClick = (name, link) => {
   popupWithImage.open(name, link);
-  popupWithImage.setEventListeners();
 };
 
+popupWithImage.setEventListeners();
+
 const creatNewCard = new Section({
-  items: initialCards,
   renderer: (item) => {
-    const card = new Card(item.name, item.link, '#new-card', handleCardClick);
-    const cardElement = card.generateCard();
-    creatNewCard.addItem(cardElement);
+    creatCard(item.name, item.link, '#new-card', handleCardClick);
   }
 }, '.elements__container');
-creatNewCard.renderItems();
+creatNewCard.renderItems(initialCards);
 
 const resumeFormValidate = new FormValidator(config, '#resume');
 resumeFormValidate.enableValidation();
