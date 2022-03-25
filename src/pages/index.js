@@ -43,13 +43,12 @@ popupProfile.setEventListeners();
 
 const creatCard = (name, link, templateSelector) => {
   const card = new Card(name, link, templateSelector, handleCardClick); 
-  const cardElement = card.generateCard();
-  creatNewCard.addItem(cardElement);
+  return card.generateCard();
 };
 
 const popupMesto = new PopupWithForm('.popup-mesto', {
-  submitEvent: (item) => {
-    creatCard(item.name, item.link, '#new-card', handleCardClick);
+  submitEvent: (item) => {    
+    creatNewCard.addItem(creatCard(item.name, item.link, '#new-card', handleCardClick));
     popupMesto.close();
   }
 });
@@ -69,7 +68,7 @@ popupWithImage.setEventListeners();
 
 const creatNewCard = new Section({
   renderer: (item) => {
-    creatCard(item.name, item.link, '#new-card', handleCardClick);
+    creatNewCard.addItem(creatCard(item.name, item.link, '#new-card', handleCardClick));
   }
 }, '.elements__container');
 creatNewCard.renderItems(initialCards);
