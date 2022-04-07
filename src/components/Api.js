@@ -7,28 +7,25 @@ class Api {
     this.headers = headers;
   }
 
+  _getResponseData(res) {
+    if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
+  }
+
   getProfile() {
     return fetch(`${this.baseUrl}/users/me`, {
         headers: this.headers
       })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => {
-        console.log('Ошибка. Запрос не выполнен: ', err);
-      });
+      .then(res => this._getResponseData(res));
   }
 
   getInitialCards() {
     return fetch(`${this.baseUrl}/cards`, {
         headers: this.headers
       })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => {
-        console.log('Ошибка. Запрос не выполнен: ', err);
-      });
+      .then(res => this._getResponseData(res));
   }
 
   editProfile(name, about) {
@@ -40,12 +37,7 @@ class Api {
           about: about
         })
       })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => {
-        console.log('Ошибка. Запрос не выполнен: ', err);
-      });  
+      .then(res => this._getResponseData(res));
   }
 
   addCardMesto(name, link) {
@@ -57,12 +49,7 @@ class Api {
           link: link
         })
       })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => {
-        console.log('Ошибка. Запрос не выполнен: ', err);
-      });
+      .then(res => this._getResponseData(res));
   }
 
   deleteCardMesto(id) {
@@ -70,12 +57,7 @@ class Api {
         method: 'DELETE',
         headers: this.headers
       })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => {
-        console.log('Ошибка. Запрос не выполнен: ', err);
-      });
+      .then(res => this._getResponseData(res));
   }
 
   deleteLike(id) {
@@ -83,12 +65,7 @@ class Api {
         method: 'DELETE',
         headers: this.headers
       })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => {
-        console.log('Ошибка. Запрос не выполнен: ', err);
-      });
+      .then(res => this._getResponseData(res));
   }
 
   addLike(id) {
@@ -96,12 +73,7 @@ class Api {
         method: 'PUT',
         headers: this.headers
       })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => {
-        console.log('Ошибка. Запрос не выполнен: ', err);
-      });
+      .then(res => this._getResponseData(res));
   }
 
   editAvatar(avatar) {
@@ -112,13 +84,9 @@ class Api {
           avatar: avatar
         })
       })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => {
-        console.log('Ошибка. Запрос не выполнен: ', err);
-      });  
+      .then(res => this._getResponseData(res));
   }
+
 
 
 }

@@ -33,14 +33,20 @@ api.getProfile()
     userInfo.setUserInfo(res);
     userInfo.setUserAvatar(res);
     userId = res._id;
+  })
+  .catch((err) => {
+    console.log('Ошибка. Запрос не выполнен: ', err);
   });
 
 
 api.getInitialCards()
   .then((cardList) => {
-    cardList.forEach(data => {
+    cardList.reverse().forEach(data => {
       creatNewCard.addItem(creatCard(data.name, data.link, data.likes, data._id, userId, data.owner._id, '#new-card'));
     });
+  })
+  .catch((err) => {
+    console.log('Ошибка. Запрос не выполнен: ', err);
   });
 
 
@@ -54,17 +60,29 @@ const popupProfile = new PopupWithForm('.popup-profile', {
       .then(() => {
         userInfo.setUserInfo(item);
         popupProfile.close();
+      })
+      .catch((err) => {
+        console.log('Ошибка. Запрос не выполнен: ', err);
+      })
+      .finally(() => {
+        popupProfile.renderLoading(false);
       });
   }
 });
 
 const popupAvatar = new PopupWithForm('.popup-avatar',{
   submitEvent: (item) => {
-    popupProfile.renderLoading(true);
+    popupAvatar.renderLoading(true);
     api.editAvatar(item.avatar)
       .then(() => {
         userInfo.setUserAvatar(item);
         popupAvatar.close();
+      })
+      .catch((err) => {
+        console.log('Ошибка. Запрос не выполнен: ', err);
+      })
+      .finally(() => {
+        popupAvatar.renderLoading(false);
       });
   }
 });
@@ -94,6 +112,9 @@ const creatCard = (name, link, likes, id, userId, ownerId, templateSelector) => 
           .then(() => {
             card.removeCard();
             popupDelete.close();
+          })
+          .catch((err) => {
+            console.log('Ошибка. Запрос не выполнен: ', err);
           });
       });
     },
@@ -102,11 +123,17 @@ const creatCard = (name, link, likes, id, userId, ownerId, templateSelector) => 
         api.deleteLike(id)
           .then((res) => {
             card.setLikes(res.likes);
+          })
+          .catch((err) => {
+            console.log('Ошибка. Запрос не выполнен: ', err);
           });
       } else {
         api.addLike(id)
           .then((res) => {
             card.setLikes(res.likes);
+          })
+          .catch((err) => {
+            console.log('Ошибка. Запрос не выполнен: ', err);
           });
       }
     });
@@ -115,11 +142,17 @@ const creatCard = (name, link, likes, id, userId, ownerId, templateSelector) => 
 
 const popupMesto = new PopupWithForm('.popup-mesto', {
   submitEvent: (item) => {
-    popupProfile.renderLoading(true);
+    popupMesto.renderLoading(true);
     api.addCardMesto(item.name, item.link)
       .then((res) => {
         creatNewCard.addItem(creatCard(res.name, res.link, res.likes, res._id, userId, res.owner._id, '#new-card'));
         popupMesto.close();
+      })
+      .catch((err) => {
+        console.log('Ошибка. Запрос не выполнен: ', err);
+      })
+      .finally(() => {
+        popupMesto.renderLoading(false);
       });
   }
 });
@@ -152,3 +185,6 @@ resumeFormValidate.enableValidation();
 
 const mestoFormValidate = new FormValidator(config, '#mesto');
 mestoFormValidate.enableValidation();
+
+const avatarFormValidate = new FormValidator(config, '#face');
+avatarFormValidate.enableValidation();

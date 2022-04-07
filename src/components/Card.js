@@ -39,17 +39,24 @@ export class Card {
   generateCard() {
     this._element = this._getTemplate();
 
-    this._element.querySelector('.element__image').src = this._link;
-    this._element.querySelector('.element__place-name').textContent = this._name;
-    this._element.querySelector('.element__image').alt = this._name;
-    this._like = this._element.querySelector('.element__like');
-    this._remove = this._element.querySelector('.element__delete');
     this._image = this._element.querySelector('.element__image');
+    this._image.src = this._link;
+    this._element.querySelector('.element__place-name').textContent = this._name;
+    this._image.alt = this._name;
+    this._like = this._element.querySelector('.element__like');
+    this._remove = this._element.querySelector('.element__delete');    
     this._element.querySelector('.element__like-counter').textContent = this._likes.length;
 
     if (this._ownerId !== this._userId) {
       this._remove.style.display = 'none';
     }
+
+    if(this.isLiked()) {
+      this._likeCard();
+    } else {
+      this._dislikeCard();
+    }
+
 
     /* this._likes.forEach((user) => {
       if(user._id === this._ownerId) {
